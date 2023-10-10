@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Purchase{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6 my-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center my-lg-3 my-sm-1">Thanks for purchasing</h2>
+                        <p class="mx-2">Thanks for purchasing! Hope to see you again soon</p>
+                        <p class="text-muted mx-2">Your order of 
+                            {{ first_item.name }} {% if products_count > 1 %}+{{ products_count-1 }} items{% endif %}
+                            will be on its way!
+                        </p>
+                        <a class="btn btn-primary mb-3 mt-2" href="/"><i class="bi bi-arrow-90deg-left"></i> Homepage</a>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+{% endblock %}

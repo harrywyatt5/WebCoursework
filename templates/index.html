@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- bootstrap carousel adapted from https://getbootstrap.com/docs/5.0/components/carousel/-->
+    <div id="ourPics" class="carousel slide mx-3 mt-3 mb-1" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for item in carousel_items %}
+                <button type="button" {% if loop.index0 == 0 %}class="active"{% endif %} data-bs-target="#ourPics" data-bs-slide-to="{{ loop.index0 }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for item in carousel_items %}
+                <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+                    <img src="{{ url_for('static', filename='carousel/' ~ item.id ~ '.jpg') }}" height="600" alt="{{ item.imgDescription }}" class="d-block w-100">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h4>{{ item.title }}</h4>
+                        <p>{{ item.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Control buttons -->
+            <button class="carousel-control-prev" data-bs-target="#ourPics" data-bs-slide="prev" type="button">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" data-bs-target="#ourPics" data-bs-slide="next" type="button">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Advertising area -->
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-10">
+                <img class="img-fluid" src="{{ url_for('static', filename='/img/powerpoint.png') }}" alt="Advert for partner site">
+            </div>
+        </div>
+    </div>
+
+    {% for category in products %}
+        <h1 class="{% if loop.index0 == 0 %}mt-5{% else %}mt-2{% endif %} text-center" id="{{ 'scroll' ~ category.name|title }}">{{ category.name|title }}</h1>
+        <div class="container">
+            {% for item in products[category] %}
+                {% if loop.index0 % 3 == 0 %}
+                    <div class="row mt-3">
+                {% endif %}
+                    
+                <div class="col-4">
+                    <div class="card" data-aos="flip-left" data-aos-delay="{{ (loop.index0 % 3 + 1) * 250 }}">
+                        <img src="{{ url_for('static', filename='product/' ~ item.id ~ '.jpg') }}" alt="{{ item.name }}" height="280rem" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text text-truncate">{{ item.description }}</p>
+                            <p class="card-text"><small class="text-muted">🍀Environmental score: {{ item.env_impact }}</small></p>
+                            <p class="card-text"><strong>£{{ "%.2f"|format(item.value) }}</strong></p>
+                            
+                            {% if not item.requires_customisation %}
+                                <button class="btn btn-lg btn-primary" id="{{ 'add' ~ item.id }}" onclick=addToBasket(this.id.substring(3))>
+                                    <i class="bi bi-cart"></i>
+                                    Add to Basket
+                                </button>
+                            {% endif %}
+                            <a href="{{ '/product/' ~ item.id }}" class="btn btn-outline-info">View item</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% if (loop.index0 + 1) % 3 == 0 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

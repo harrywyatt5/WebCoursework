@@ -1,0 +1,21 @@
+body {
+    background-color: darkblue;
+}
+
+/* Below code adapted from https://stackoverflow.com/questions/68919641/how-to-add-badge-on-top-of-icon-in-bootstrap */
+#basketIcon {
+    position: relative;
+  }
+
+#basketIcon span{
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    display: block;
+  }
+/* end */
+
+.icon-size {
+  width: 64px;
+  height: 64px;
+}

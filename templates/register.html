@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-lg-5 mt-sm-2">
+        <div class="card mx-3">
+            {{ macros.make_formcard_header("person-plus-fill", "Register") }}
+            <div class="card-body">
+                <form class="m-4 mt-3" method="POST" action="/register">
+                    {% for field in form %}
+                        {% if field.name != "submit" and field.name != "csrf_token" %}
+                            {{ macros.make_fform_segment(field, 2, field.name in form.errors, form.errors[field.name][0] if form.errors.get(field.name)) }}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="d-flex justify-content-center mt-2">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

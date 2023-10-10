@@ -1,0 +1,45 @@
+{% macro make_fform_segment(form_seg, bottom_padding, is_err, err_msg=None) %}
+    <div class="form-floating mb-{{ bottom_padding }}">
+        {% if not is_err %}
+            {{ form_seg(class="form-control", placeholder=" ") }}
+        {% else %}
+            {{ form_seg(class="form-control is-invalid", placeholder=" ") }}
+
+            {% if not err_msg == None %}
+                <div class="invalid-feedback">
+                    {{ err_msg }}
+                </div>
+            {% endif %}
+        {% endif %}
+        {{ form_seg.label }}
+    </div>
+{% endmacro %}
+
+{% macro make_formcard_header(icon_name, text) %}
+    <div class="card-header">
+        <h3 class="card-title text-center mt-lg-1">
+            <i class="bi bi-{{ icon_name }}"></i>
+            {{ text }}
+        </h3>
+    </div>
+{% endmacro %}
+
+{% macro create_column_entry(entity, col_size) %}
+    <div class="col-md-{{ col_size }} mb-lg-2">
+        <span class="mb-lg-1">{{ entity.label }}</span>
+        {{ entity(class="form-control") }}
+    </div>
+{% endmacro %}
+
+{% macro create_modal_row(contents, gutter=0) %}
+    <div class="row {% if gutter > 0 %}g-{{ gutter }}{% endif %}">
+        {% for item in contents %}{{ item }}{% endfor %}
+    </div>
+{% endmacro %}
+
+<!-- Workaround for Jinja escaping special characters in strings passed -->
+{% macro create_hint_button() %}
+    <div class="col-md-1">
+        <button type="button" class="btn btn-info" id="cvcHint"><i class="bi bi-question"></i></button>
+    </div>
+{% endmacro %}

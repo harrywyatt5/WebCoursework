@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+    <div class="card bg-light mx-4 my-5">
+        <h2 class="card-title text-center m-md-3">{{ product.name }}</h2>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <img class="rounded img-fluid" src="{{ url_for('static', filename='/product/' ~ product.id ~ '.jpg') }}" alt="Picture of {{ product.name }}">
+                </div>
+                <div class="col-6">
+                    <p class="card-text mb-3">{{ product.description }}</p>
+                    <p class="card-text mb-3">🍀 Environmental score: {{ product.env_impact }}</p>
+                    {% for category in processed_options %}
+                        <h5 class="card-text">{{ category.name|title }}</h5>
+                        <div class="form-check form-check-inline">
+                        {% for option in processed_options[category] %}
+                            <input class="btn-check mt-1" type="{% if category.value >= 100 %}radio{% else %}checkbox{% endif %}" id="option{{option.id}}" data-optionid="{{ option.id }}" name="{{ category.name }}" value="{{ option.value }}">
+                            <label class="btn btn-outline-primary" for="option{{option.id}}">
+                                {{ option.name }} 
+                                {% if option.value > 0 %}<small class="text-muted">+£{{ "%.2f"|format(option.value) }}</small>{% endif %}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <p class="card-text d-inline-block" data-baseprice="{{ product.value }}" id="productPrice" style="font-size: 2em;"><strong>£{{ "%.2f"|format(product.value) }}</strong></p>
+                    <button class="btn btn-danger btn-lg float-end d-inline-block" onclick=productAddToBasket({{ product.id }})>Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/product-page.js') }}"></script>
+    <script>
+        window.addEventListener("load", registerButtons);
+    </script>
+{% endblock %}

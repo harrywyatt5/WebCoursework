@@ -1,0 +1,12 @@
+Flask
+Flask-Bootstrap
+Flask-Login
+Flask-SQLAlchemy
+Flask-WTF
+Jinja2
+MarkupSafe
+SQLAlchemy
+WTForms
+wtforms[email]
+Werkzeug
+flask-bcrypt
